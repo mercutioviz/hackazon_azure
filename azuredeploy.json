@@ -2,11 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "storageAccounts_hackazon001_name": {
+        "storageAccount_name": {
             "defaultValue": "hackazon001",
             "type": "string"
         },
-        "virtualMachines_Hackazon_Debian9_name": {
+        "virtualMachine_name": {
             "defaultValue": "Hackazon-Debian9",
             "type": "string"
         },
@@ -48,7 +48,7 @@
         {
             "comments": "Generalized from resource: '/subscriptions/0e1a8817-dcd6-4ca8-9017-2fbda46c2be7/resourceGroups/Collins-Hackazon/providers/Microsoft.Compute/virtualMachines/Hackazon-Debian9'.",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('virtualMachines_Hackazon_Debian9_name')]",
+            "name": "[parameters('virtualMachine_name')]",
             "apiVersion": "2017-03-30",
             "location": "[resourceGroup().location]",
             "scale": null,
@@ -65,10 +65,10 @@
                     },
                     "osDisk": {
                         "osType": "Linux",
-                        "name": "[parameters('virtualMachines_Hackazon_Debian9_name')]",
+                        "name": "[parameters('virtualMachine_name')]",
                         "createOption": "FromImage",
                         "vhd": {
-                            "uri": "[concat('https', '://', parameters('storageAccounts_hackazon001_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_Hackazon_Debian9_name'),'20180411112953.vhd'))]"
+                            "uri": "[concat('https', '://', parameters('storageAccount_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachine_name'),'20180411112953.vhd'))]"
                         },
                         "caching": "ReadWrite",
                         "diskSizeGB": 30
@@ -76,7 +76,7 @@
                     "dataDisks": []
                 },
                 "osProfile": {
-                    "computerName": "[parameters('virtualMachines_Hackazon_Debian9_name')]",
+                    "computerName": "[parameters('virtualMachine_name')]",
                     "adminUsername": "localadmin",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": false
@@ -92,7 +92,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_hackazon001_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccount_name'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hackazon_debian9775_name'))]"
             ]
         },
@@ -136,14 +136,14 @@
                 },
                 "primary": true,
                 "virtualMachine": {
-                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_Hackazon_Debian9_name'))]"
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachine_name'))]"
                 }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_Hackazon_Debian9_ip_name'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Collins_Hackazon_vnet_name'), parameters('subnets_default_name'))]",
                 "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_SG_SSHandWeb_name'))]",
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_Hackazon_Debian9_name'))]"
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachine_name'))]"
             ]
         },
         {
@@ -400,7 +400,7 @@
                 "tier": "Premium"
             },
             "kind": "Storage",
-            "name": "[parameters('storageAccounts_hackazon001_name')]",
+            "name": "[parameters('storageAccount_name')]",
             "apiVersion": "2017-10-01",
             "location": "[resourceGroup().location]",
             "tags": {},
